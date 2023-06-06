@@ -1559,6 +1559,7 @@ MonoBehaviour:
   countText: {fileID: 1917558087}
   WinTextObject: {fileID: 330257593}
   TimeText: {fileID: 2128701197}
+  jumpForce: 550
 --- !u!1 &1121669947
 GameObject:
   m_ObjectHideFlags: 0

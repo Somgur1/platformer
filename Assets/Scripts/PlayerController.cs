@@ -19,20 +19,58 @@ public class PlayerController : MonoBehaviour
     private float time;
     private bool gameCompleted = false;
 
+    public float jumpForce = 550f;
+
+    public InputActions PlayerControls;
+
+    private InputAction move;
+    private InputAction click;
+
+    private void OnEnable()
+    {
+        move = PlayerControls.Player.Move;
+        move.Enable();
+
+        click = PlayerControls.Player.Fire;
+        click.Enable();
+        click.performed += Click;
+    }
+
+  
+
+    private void OnDisable( ) { 
+        move.Disable();
+        click.Disable();
+    }
+
+    private void Awake()
+    {
+        PlayerControls = new InputActions();
+ }
+
+    private void Click(InputAction.CallbackContext callbackContext)
+    {
+        Debug.Log("Click fired");
+        rb.AddForce(Vector2.up * jumpForce * 1.5f);
+        
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
-
+        Debug.Log("Game started");
         SetCountText();
         WinTextObject.SetActive(false);
+        
     }
 
     void OnMove(InputValue movementValue)
     {
+       
         Vector2 movementVector = movementValue.Get<Vector2>();
+        
 
         movementX = movementVector.x;
         movementY = movementVector.y;
@@ -43,6 +81,12 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    void TaskOnClick()
+    {
+        Debug.Log("You have clicked the button!");
+    }
+
 
     void SetCountText()
     {
