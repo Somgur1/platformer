@@ -51,12 +51,12 @@ public class PlayerController : MonoBehaviour
 
     private void Click(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Click fired");
         if (isGrounded)
         {
             isGrounded = false;
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
         }
+
         
     }
 
@@ -70,13 +70,17 @@ public class PlayerController : MonoBehaviour
         WinTextObject.SetActive(false);
         
     }
-
+  
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("On collision enter");
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
         }
         Debug.Log(isGrounded);
     }
@@ -96,11 +100,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void TaskOnClick()
-    {
-        Debug.Log("You have clicked the button!");
-    }
-
 
     void SetCountText()
     {
@@ -115,8 +114,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
-
 
         if (isTimerOn)
         {
