@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool gameCompleted = false;
 
     public float jumpForce = 550f;
+    bool isGrounded;
 
     public InputActions PlayerControls;
 
@@ -51,7 +52,11 @@ public class PlayerController : MonoBehaviour
     private void Click(InputAction.CallbackContext callbackContext)
     {
         Debug.Log("Click fired");
-        rb.AddForce(Vector2.up * jumpForce * 1.5f);
+        if (isGrounded)
+        {
+            isGrounded = false;
+            rb.AddForce(Vector2.up * jumpForce * 1.5f);
+        }
         
     }
 
@@ -66,6 +71,15 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("On collision enter");
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+        Debug.Log(isGrounded);
+    }
     void OnMove(InputValue movementValue)
     {
        
