@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Rotator : MonoBehaviour
 {
+    public GameObject player;
+    public float turnSpeed;
 
-    // Update is called once per frame
+    void Start()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
-        transform.Rotate(new Vector3(15, 30, 45) * Time.deltaTime);
+        float y = Input.GetAxis("Mouse X") * turnSpeed;
+        player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y + y, 0);
     }
 }

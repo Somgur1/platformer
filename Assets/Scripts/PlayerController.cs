@@ -131,6 +131,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
 
+        // Get the rotation of the player
+        Quaternion rotation = transform.rotation;
+
+        // Rotate the movement vector based on the player's rotation
+        movement = rotation * movement;
+
         rb.AddForce(movement * speed);
     }
 
