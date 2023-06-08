@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject WinTextObject;
+    public GameObject SecretTextObject;
     public TextMeshProUGUI TimeText;
 
     private Rigidbody rb;
@@ -25,29 +26,40 @@ public class PlayerController : MonoBehaviour
     public InputActions PlayerControls;
 
     private InputAction move;
-    private InputAction click;
+    private InputAction jump;
 
     private void OnEnable()
     {
-        move = PlayerControls.Player.Move;
+        move = PlayerControls.Player.Move;  
         move.Enable();
 
-        click = PlayerControls.Player.Fire;
-        click.Enable();
-        click.performed += Click;
+        
+
+        jump = PlayerControls.Player.Jump;
+        jump.Enable();
+        jump.performed += Jump;
     }
 
   
 
     private void OnDisable( ) { 
         move.Disable();
-        click.Disable();
+        jump.Disable();
     }
 
     private void Awake()
     {
         PlayerControls = new InputActions();
  }
+
+    private void Jump(InputAction.CallbackContext callbackContext)
+    {
+        if (isGrounded)
+        {
+            isGrounded = false;
+            rb.AddForce(Vector2.up * jumpForce * 1.5f);
+        }
+    }
 
     private void Click(InputAction.CallbackContext callbackContext)
     {
@@ -68,12 +80,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Game started");
         SetCountText();
         WinTextObject.SetActive(false);
+        SecretTextObject.SetActive(false);
         
     }
   
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("On collision enter");
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
@@ -82,7 +94,10 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
-        Debug.Log(isGrounded);
+    }
+    void OnCollisionExit(Collision other)
+    {
+        isGrounded = false;
     }
     void OnMove(InputValue movementValue)
     {
@@ -101,14 +116,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void SetCountText()
+    void SetCountText(bool secretFound = false)
     {
         countText.text = "Count: " + count.ToString();
-        if (count >= 12)
+        if (count >= 7)
         {
             WinTextObject.SetActive(true);
             isTimerOn = false;
             gameCompleted= true;
+            SecretTextObject.SetActive(secretFound);
+            
         }
     }
 
@@ -142,12 +159,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.CompareTag("Pickup"))
         {
             other.gameObject.SetActive(false);
             count++;
 
             SetCountText();
+        }
+        if (other.gameObject.CompareTag("Secret"))
+        {
+            other.gameObject.SetActive(false);
+            count = 8;
+            SetCountText(true);
         }
         
     }

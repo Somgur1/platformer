@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     public float speed = 1;
     public float maxVerticalAngle = 90f;
     public float minVerticalAngle = -90f;
+    public InputActions PlayerControls;
 
     void Start()
     {
