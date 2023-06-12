@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Template/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
+    path: Assets/Scene/MainMenu_for_keuzedeel.unity
+    guid: 1ab4d22afb350744aae20ca5c73d730b
+  - enabled: 1
     path: Assets/Scene/Minigame.unity
     guid: 45a9c4626cf06fb43b09f9ff0e1c9982
   m_configObjects:
